@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Test Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 1.5rem;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .options label {
+            display: block;
+            margin: 8px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .timer {
+            text-align: right;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        #result {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Online Test Platform
+    </header>
+    <div class="container">
+        <div class="timer">Time Left: <span id="time">10:00</span></div>
+        <form id="quizForm">
+            <!-- Question 1 -->
+            <div class="question">
+                <h2>Q1. The following functional dependencies are given. Which option is false?</h2>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="a"> {AD}+ = {ABDEMSY}</label>
+                    <label><input type="radio" name="q1" value="b"> {GM}+ = {ABDEGMSTY}</label>
+                    <label><input type="radio" name="q1" value="c"> {EG}+ = {AEGSTY}</label>
+                    <label><input type="radio" name="q1" value="d"> {DT}+ = {ABDMST}</label>
+                </div>
+            </div>
+            <!-- Question 2 -->
+            <div class="question">
+                <h2>Q2. Maximum number of tuples possible in a natural join R1 x R2 x R3?</h2>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="a"> 20000</label>
+                    <label><input type="radio" name="q2" value="b"> 300000</label>
+                    <label><input type="radio" name="q2" value="c"> 6000000</label>
+                    <label><input type="radio" name="q2" value="d"> 900000</label>
+                </div>
+            </div>
+            <!-- Add remaining questions here following the same format -->
+            
+            <button type="button" onclick="submitQuiz()">Submit</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let timer = 600; // 10 minutes in seconds
+        const timerElement = document.getElementById("time");
+
+        function startTimer() {
+            const interval = setInterval(() => {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                timerElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+                timer--;
+
+                if (timer < 0) {
+                    clearInterval(interval);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+        startTimer();
+
+        function submitQuiz() {
+            const answers = {
+                q1: "d",
+                q2: "c",
+                // Add correct answers for remaining questions
+            };
+            let score = 0;
+            const form = document.getElementById("quizForm");
+            const formData = new FormData(form);
+
+            for (const [key, value] of formData.entries()) {
+                if (answers[key] === value) {
+                    score++;
+                }
+            }
+
+            const totalQuestions = Object.keys(answers).length;
+            document.getElementById("result").textContent = `You scored ${score} out of ${totalQuestions}`;
+        }
+    </script>
+</body>
+</html>
